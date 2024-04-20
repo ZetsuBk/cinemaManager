@@ -40,6 +40,8 @@ public class Artiste {
         return nom;
     }
     public void setNom(String nom) {
+
+        
         this.nom = nom;
     }
     public String getPrenom() {
