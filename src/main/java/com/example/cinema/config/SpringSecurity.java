@@ -1,4 +1,4 @@
-package com.example.cinema;
+package com.example.cinema.config;
 
 
 
@@ -21,22 +21,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
-	
-        @Bean
-        public UserDetailsService userDetailsService() throws Exception {
-            return new InMemoryUserDetailsManager(
-                User.withUsername("admin")
-                    .password(passwordEncoder().encode("admin"))
-                    .roles("ADMIN")
-                    .build()
-            );
-        }
-    
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        }
-    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
