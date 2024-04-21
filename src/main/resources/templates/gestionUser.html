@@ -36,132 +36,86 @@
         
          <!-- Main Content Area -->
          <div class="col-md-9">
-            <!-- User Management -->
-            <div id="userManagement" class="mt-4">
-                <h4>User Management</h4>
-                <!-- Add User Form -->
-                <div id="addUserForm" class="mt-4">
-                    <h5>Add User</h5>
-                    <form id="addUser" th:action="@{/admin/addUser}" method="post">
-                        <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firtString" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <select class="form-control" id="role" name="role" required>
-                                <option value="ADMIN">Admin</option>
-                                <option value="USER">User</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add User</button>
-                    </form>
-                </div>
-                
-                <!-- User List -->
-                <div id="userList" class="mt-5">
-                    <h5>User List</h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Thymeleaf loop to display users -->
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.id}"></td>
-                                <td th:text="${user.firtString}"></td>
-                                <td th:text="${user.lastName}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td th:text="${user.username}"></td>
-                                <td th:text="${user.role}"></td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm" th:onclick="'editUser(' + ${user.id} + ')'">Edit</button>
-                                    <button class="btn btn-danger btn-sm" th:onclick="'deleteUser(' + ${user.id} + ')'">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <form style="display: none" id="newCategoryForm" th:action="@{/admin/users/edit}" th:object="${newUser}" enctype="multipart/form-data" method="post">
+                <input  id="submitId" type="text" class="form-control" th:field="*{Id}" />
+                <input id="submitUsername" type="text" class="form-control" th:field="*{username}" />
+                <input id="submitEmail" type="text" class="form-control" th:field="*{email}" />
+                <input id="submitPassword" type="text" class="form-control" th:field="*{password}" />
+            </form>
+        `
+            <h2  class="text-light mt-5 mb-3">Users</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${listUsers}">
+        
+                        <td th:text="${user.id}"></td>
+                        <td><input type="text" class="form-control"  th:value="${user.username}" /></td>
+                        <td><input type="text" class="form-control"   th:value="${user.email}" /></td>
+                        <td><input type="text" class="form-control"   th:value="${user.password}" /></td>
+                        <td>
+                            <button  onclick="save(this)" type="button" id="saveButton" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Save</button>
+                            <a th:href="@{'/admin/users/delete/' + ${user.Id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                        </td>
+        
+                    </tr>
+                    <tr>
+                        <td>#</td>
+                        <td><input type="text" class="form-control"  placeholder="username"/></td>
+                        <td><input type="text" class="form-control" placeholder="email"/></td>
+                        <td><input type="text" class="form-control" placeholder="password"/></td>
+                        </td>
+                        <td>
+                            <button  onclick="add(this)" type="button"  style="width: 100px" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Add</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div style="display: flex; flex-direction: row; justify-content: center" >
+                <nav style="width: max-width;"  aria-label="Page navigation">
+                    <ul  class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/admin/users/page/1'}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(1,totalpages)}" ><a class="page-link" th:href="@{'/admin/users/page/'+${i}}" th:text="${i}"></a></li>
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/admin/users/page/' + ${totalpages}}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Add User Form Submission
-    $('#addUser').submit(function(e) {
-        e.preventDefault();
+            <script>
+                function  save(btn){
+                    document.getElementById("submitId").value = btn.parentElement.parentElement.children[0].innerText
+                    document.getElementById("submitEmail").value = btn.parentElement.parentElement.children[2].firstChild.value
+                    document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[3].firstChild.value
+                    document.getElementById("submitUsername").value = btn.parentElement.parentElement.children[1].firstChild.value
+                    document.getElementById("newCategoryForm").submit();
+                }
+                function  add(btn){
+                    document.getElementById("submitEmail").value = btn.parentElement.parentElement.children[2].firstChild.value
+                    document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[3].firstChild.value
+                    document.getElementById("submitUsername").value = btn.parentElement.parentElement.children[1].firstChild.value
+                    document.getElementById("newCategoryForm").submit();
+                }
+                
         
-        let user = {
-            firtString: $('#firstName').val(),
-            lastName: $('#lastName').val(),
-            email: $('#email').val(),
-            username: $('#username').val(),
-            password: $('#password').val(),
-            role: $('#role').val()
-        };
-
-        $.ajax({
-            url: '/admin/addUser',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(user),
-            success: function(response) {
-                alert('User added successfully!');
-                $('#addUser')[0].reset();
-                location.reload(); // Reload the page to update the user list
-            },
-            error: function(error) {
-                alert('Error adding user!');
-            }
-        });
-    });
-
-    // Edit User
-    function editUser(id) {
-        // Implement edit functionality
-        alert('Edit functionality to be implemented');
-    }
-
-    // Delete User
-    function deleteUser(id) {
-        $.ajax({
-            url: `/admin/deleteUser/${id}`,
-            type: 'DELETE',
-            success: function(response) {
-                alert('User deleted successfully!');
-                location.reload(); // Reload the page to update the user list
-            },
-            error: function(error) {
-                alert('Error deleting user!');
-            }
-        });
-    }
-</script>
+            </script>
+        
 
 <!-- Footer -->
 <footer class="footer">
