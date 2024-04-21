@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SpringSecurity {
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
