@@ -1,7 +1,8 @@
 package com.example.cinema.entity;
 
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -46,7 +47,6 @@ public class Personne extends AbstractModel<Long>{
     @Column(name = "date_naissance")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dateNaissance;
-
     @Column(nullable = false, length = 50)
     @Enumerated(EnumType.STRING)
     private TypePersonne typePersonne;

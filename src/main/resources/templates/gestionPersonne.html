@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head">
+    
+</head>
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+<div class="container-fluid">
+    <div class="row">
+    <div th:replace="template :: sidebar"></div>
+    <div class="col-md-9">
+        <form style="display: none;" id="newCategoryForm" th:action="@{/admin/personnes/edit}" th:object="${newPersonne}" enctype="multipart/form-data" method="post">
+            <input type="file" id="savefile" name="file">
+            <input id="submitId" type="text" class="form-control" th:field="*{id}" />
+            <input id="submitNom" type="text" class="form-control" th:field="*{nom}" />
+            <input id="submitPrenom" type="text" class="form-control" th:field="*{prenom}" />
+            <input id="submitPassword" type="text" class="form-control" th:field="*{dateNaissance}" />
+            <input id="submitType" type="text" class="form-control" th:field="*{typePersonne}" />
+            <input id="submitNationalite" type="text" class="form-control" th:field="*{nationalite.id}" />
+        </form>
+    
+        <h2  class="text-light mt-5 mb-3">Users</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Photo</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Date dateNaissance</th>
+                    <th>Type personne</th>
+                    <th>nationalite</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="personne : ${listPersonnes}">
+    
+                    <td th:text="${personne.id}"></td>
+                    <td><img onclick="selectImage(this)" style="border-radius: 6px; border:  1px solid rgb(197, 197, 197);" width="80" height="80" th:src="${personne.photo}" alt="photo*"><input style="display: none" type="file"  name="file"></td>
+                    <td><input type="text" class="form-control"   th:value="${personne.nom}" /></td>
+                    <td><input type="text" class="form-control"   th:value="${personne.prenom}" /></td>
+                    <td><input type="date" class="form-control"   th:value="${personne.dateNaissance}" /></td>
+                    <td><select class="form-select">
+                        <option th:each="type : ${Types}" th:text="${type}" th:selected="${type == personne.typePersonne}" th:value="${type}"></option>
+                    </select>
+                    </td>
+                    <td><select class="form-select">
+                        <option th:each="nationalite : ${nationalites}" th:text="${nationalite.libelle}" th:selected="${nationalite.libelle == personne.nationalite.libelle}" th:value="${nationalite.id}"></option>
+                    </select>
+                    </td>
+                    <td style="display: flex;flex-direction: row;justify-content: space-between;">
+                        <button  onclick="save(this)" type="button" id="saveButton" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Save</button>
+                        <a th:href="@{'/admin/personnes/delete/' + ${personne.id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    </td>
+    
+                </tr>
+                <tr style="background-color: rgb(204, 203, 203);">
+                    <td>#</td>
+                    <td><button onclick="post()" class="btn btn-primary btn-sm">Upload photo</button><input id="postphoto" style="display: none;"  type="file" class="form-control" /></td>
+                    <td><input type="text" class="form-control"  placeholder="nom"/></td>
+                    <td><input type="text" class="form-control" placeholder="prenom"/></td>
+                    <td><input type="date" class="form-control"  placeholder="dateNaissance " /></td>
+                    <td><select class="form-select">
+                        <option th:each="type : ${Types}" th:text="${type}" th:value="${type}"></option>
+                    </select>
+                    </td>
+                    <td><select class="form-select">
+                        <option th:each="nationalite : ${nationalites}" th:text="${nationalite.libelle}"  th:value="${nationalite.id}"></option>
+                    </select>
+                    </td>
+                    <td>
+                        <button  onclick="add(this)" type="button"  style="width: 100px" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Add</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="display: flex; flex-direction: row; justify-content: center" >
+            <nav style="width: max-width;"  aria-label="Page navigation">
+                <ul  class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/personnes/page/1'}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1,totalpages)}" ><a class="page-link" th:href="@{'/admin/personnes/page/'+${i}}" th:text="${i}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/personnes/page/' + ${totalpages}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        <script>
+            function  save(btn){
+                document.getElementById("savefile").files = btn.parentElement.parentElement.children[1].lastChild.files
+                document.getElementById("submitId").value = btn.parentElement.parentElement.children[0].innerText
+                document.getElementById("submitNom").value = btn.parentElement.parentElement.children[2].firstChild.value
+                document.getElementById("submitPrenom").value = btn.parentElement.parentElement.children[3].firstChild.value
+                document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[4].firstChild.value
+                document.getElementById("submitType").value = btn.parentElement.parentElement.children[5].firstChild.value
+                document.getElementById("submitNationalite").value = btn.parentElement.parentElement.children[6].firstChild.value
+                document.getElementById("newCategoryForm").submit();
+                
+            }
+            function  add(btn){
+                // document.getElementById("submitId").value = btn.parentElement.parentElement.children[0].innerText
+                document.getElementById("savefile").files = btn.parentElement.parentElement.children[1].lastChild.files
+                document.getElementById("submitNom").value = btn.parentElement.parentElement.children[2].firstChild.value
+                document.getElementById("submitPrenom").value = btn.parentElement.parentElement.children[3].firstChild.value
+                document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[4].firstChild.value
+                document.getElementById("submitType").value = btn.parentElement.parentElement.children[5].firstChild.value
+                document.getElementById("submitNationalite").value = btn.parentElement.parentElement.children[6].firstChild.value
+                document.getElementById("newCategoryForm").submit();
+            }
+            function  selectImage(img){
+            input = img.parentElement.lastChild
+            input.click()
+            input.addEventListener('change', function() {
+                const file = input.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function post(){
+            document.getElementById("postphoto").click();
+        }
+    
+        </script>
+    
+
+
+</div>
+</div>
+
+
+
+<div th:replace="template :: footer"></div>
+
+</body>
+</html>

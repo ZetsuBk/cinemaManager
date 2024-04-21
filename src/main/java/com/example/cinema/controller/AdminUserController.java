@@ -30,6 +30,13 @@ public class AdminUserController {
         
         return "redirect:/admin/home";
     }
+
+    @GetMapping("/")
+    @PostMapping("/")
+    public String postMethodName1() {
+        
+        return "redirect:/admin/home";
+    }
     
     @GetMapping("/users/page/{pg}")
     public String getMethodName(@PathVariable("pg") long pg ,Model model) {
@@ -40,7 +47,7 @@ public class AdminUserController {
             model.addAttribute("listUsers" ,page.getContent());
         }
         else{
-            model.addAttribute("listProducts" ,userService.getAllUsers());
+            model.addAttribute("listUsers" ,userService.getAllUsers());
         }
         model.addAttribute("newUser",new User());
 
