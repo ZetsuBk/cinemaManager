@@ -22,7 +22,7 @@ public class Utils implements ServletContextAware{
    
     static private ServletContext servletContext;
     
-    static private String uploadDir = "C:\\dev\\projetFinal\\cinemaManager\\src\\main\\resources\\static\\photos\\";
+    static private String uploadDir = "C:\\cinema\\src\\main\\resources\\static\\photos\\";
     
     public static String saveFile(MultipartFile file)
     {

@@ -19,6 +19,7 @@
                     <th>Duree</th>
                     <th>Annee</th>
                     <th>Genre</th>
+                    <th>Nationalite</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                     <td><input  disabled type="number" class="form-control"   th:value="${film.duree}" /></td>
                     <td><input  disabled type="number" class="form-control"   th:value="${film.annee}" /></td>
                     <td><input  disabled type="text" class="form-control"   th:value="${film.genre.name}" /></td>
+                    <td><input  disabled type="text" class="form-control"   th:value="${film.nationalite.libelle}" /></td>
                     <td>
                         <a th:href="@{'/admin/films/forword/'+ ${film.Id}}" class="btn btn-primary">Edit</a>
                         <a th:href="@{'/admin/films/delete/' + ${film.Id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Delete</a>

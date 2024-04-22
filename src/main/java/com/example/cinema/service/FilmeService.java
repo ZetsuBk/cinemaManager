@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.cinema.entity.Film;
+import com.example.cinema.entity.Personne;
 import com.example.cinema.repository.FilmRepository;
 
 @Service
@@ -38,6 +39,10 @@ public class FilmeService {
     public Page<Film> allByPage(Long pageNo){
         PageRequest pageable = PageRequest.of(Math.toIntExact(pageNo), 9);
         return repo.findAll(pageable);
+    }
+
+    public List<Personne> getActorsNotInFilm(Film film) {
+        return repo.findActorsNotInFilm(film);
     }
 
 }

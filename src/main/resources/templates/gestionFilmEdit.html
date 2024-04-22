@@ -16,19 +16,22 @@
                 flex-direction: row;
                 border: 1px solid rgb(126, 126, 126);
                 border-radius: 10px;
-                margin: 3px;
+                margin: 10px;
                 margin-bottom: 5px;
-                background-color: rgb(73, 73, 73);
+                background-color: #f9f9f9;
                 padding: 10px;
                 align-items: center;
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-                color: aliceblue;
+                color: rgb(36, 36, 36);
                 font-size: 20px;
 
             }
+            .directeur{
+                background-color: #4db7fe;
+            }
             .img-con img{
-                width: 85px;
-                height: 85px;
+                width: 60px;
+                height: 60px;
                 border-radius: 100%;
                 border: 2px solid white;
                 overflow: hidden;
@@ -41,23 +44,37 @@
                 padding-left: 10px;
                 width:200px;
             }
+            .name-con-1{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding-left: 10px;
+                width:450px;
+            }
             .btn-con{
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                width: 310px;
-                font-size: 19px;
+                width: 210px;
+                font-size: 15px;
             }
             .btn-con button{
                 background-color: whitesmoke;
-                width: 140px;
-                height: 40px;
+                width: 100px;
+                height: 45px;
                 color: black;
                 border-radius: 10px;
                 transition: background-color 0.3s ease;
             }
+            
+                
             .btn-con button:hover{
                 background-color: rgb(51, 70, 70);
+                color: whitesmoke;
+            }
+
+            .yy button:hover{ 
+                background-color: rgb(236, 66, 66);
                 color: whitesmoke;
             }
         </style>
@@ -72,11 +89,67 @@
     <div class="row">
     <div th:replace="template :: sidebar"></div>
         <div class="col-md-9">
-            <h2>Add Film</h2>
-           
-            
-            <!-- <form th:action="@{/admin/Film/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post"> -->
+            <div th:if= "${medias.size() > 0 }" id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li th:each="index : ${#numbers.sequence(0, medias.size()-1)}"
+                        th:data-target="'#myCarousel'"
+                        th:data-slide-to="${index}"
+                        th:class="${index == 0} ? 'active' : ''"></li>
+                </ol>
+                
         
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <!-- Image Slide -->
+                    <div th:each="media : ${medias}"  class="item active">
+                        <img th:if="${media.typeMedia == 'IMAGE'}" th:src="@{${media.media}}" alt="Image">
+                        <div class="carousel-caption">
+                            <h3>Image</h3>
+                        </div>
+                    </div>
+                    
+        
+                    <!-- Video Slide -->
+                    <div class="item">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/VIDEO_ID_1"></iframe>
+                        </div>
+                        <div class="carousel-caption">
+                            <h3>Video 1</h3>
+                        </div>
+                    </div>
+        
+
+                </div>
+        
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <br>
+            <button onclick="upload()" class="btn btn-primary" >Upload Media</button>
+
+            <h2 th:text="${mode+' Film'}"></h2>
+            <form style="display: none;" id="form" th:action="@{/admin/Film/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post">
+                <input id="formID" type="text" th:field="*{id} ">
+                <input id="formTitre" type="text" th:field="*{titre}">
+                <input id="formDuree" type="number" th:field="*{duree}">
+                <input id="formAnnee" type="number" th:field="*{annee}">
+                <input id="formGenre" type="text" th:field="*{genre.id}">
+                <input id="formNationalite" type="text" th:field="*{nationalite.id}">
+            </form>
+            <form style="display: none;" id="formUpload" th:action="@{'/admin/films/upload/'+${film.id}}"  enctype="multipart/form-data" method="post">
+                <input id="formFile" type="file" name="file">
+            </form>
+
+                <input th:value="${film.id}" style="display: none;" type="text" name="" id="id">
                 <!-- Titre -->
                 <div class="form-group">
                     <label for="titre">Titre:</label>
@@ -98,8 +171,8 @@
                 <!-- Genre ID -->
                 <div class="form-group">
                     <label for="genre_id">Genre :</label>
-                    <td><select class="form-select">
-                        <option th:each="genre: ${genres}" th:text="${genre.name}" th:selected="${genre.name == film.genre.name}" th:value="${genre.id}"></option>
+                    <td><select id="genre" class="form-select">
+                        <option  th:each="genre: ${genres}" th:text="${genre.name}" th:selected="${genre.name == film.genre.name}" th:value="${genre.id}"></option>
                     </select>
                     </td>
                 </div>
@@ -107,23 +180,30 @@
                 <!-- Nationalite ID -->
                 <div class="form-group">
                     <label for="nationalite_id">Nationalité :</label>
-                    <td><select class="form-select">
-                        <option th:each="nationalite : ${nationalites}"  th:text="${nationalite.libelle}"  th:selected="${nationalite.libelle == film.nationalite.libelle}" th:value="${nationalite.id}"></option>
+                    <td><select id="nationalite" class="form-select">
+                        <option  th:each="nationalite : ${nationalites}"  th:text="${nationalite.libelle}"  th:selected="${nationalite.libelle == film.nationalite.libelle}" th:value="${nationalite.id}"></option>
                     </select>
                     </td>
                 </div>
-                
+                <button onclick="submit()" class="btn btn-primary" >submit</button>
+
                 <div class="container">
                     <div class="row">
                         <!-- Left Box -->
                         <div class="col-md-6">
-                            <h3>Left Box</h3>
+                            <h3>Acteurs & Realisateur</h3>
                             <div class="list-group" style="max-height: 300px; overflow-y: auto;">
                                 <!-- Example element -->
-                                <div class="card-container"> 
-                                    <div class="img-con"><img src="https://developer.mozilla.org/fr/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML/basic-image.png" alt=""></div>
-                                    <div class="name-con"><p>dsdsds</p></div>
-                                    <div class="btn-con"><button>add acteur</button><button>add directeur</button></div>
+                                <div  th:if= "${MyDirecteurs == null and MyActeurs.size() == 0}">This Film dosent contai any Artistes</div>
+                                <div th:if= "${MyDirecteurs}" class="card-container directeur"> 
+                                    <div class="img-con"><img th:src="${MyDirecteurs.photo}"  alt=""/></div>
+                                    <div class="name-con-1"><p th:text="${'D: '+MyDirecteurs.nom+' '+MyDirecteurs.prenom}"></div>
+                                    <div class="btn-con yy"><a th:href= "@{'/admin/films/'+${film.id}+'/delete/directeur/'}"><button>Remove</button></a></div>
+                                </div>
+                                <div th:each= "acteur :${MyActeurs}" class="card-container"> 
+                                    <div class="img-con"><img th:src="${acteur.photo}"  alt=""/></div>
+                                    <div class="name-con-1"><p th:text="${'Ac: '+acteur.nom+' '+acteur.prenom}"></p></div>
+                                    <div class="btn-con yy"><a th:href= "@{'/admin/films/'+${film.id}+'/delete/acteur/'+${acteur.id}}"><button>Remove</button></a></div>
                                 </div>
                                 <!-- More elements can be added here -->
 
@@ -132,23 +212,15 @@
                 
                         <!-- Right Box -->
                         <div class="col-md-6">
-                            <h3>Right Box</h3>
+                            <h3>liste Artistes</h3>
                             <div class="list-group" style="max-height: 300px; overflow-y: auto;">
                                 <!-- Example element -->
-                                <div class="list-group-item">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4">
-                                            <img src="path-to-image.jpg" alt="..." class="img-fluid">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5>Item Name</h5>
-                                        </div>
-                                        <div class="col-md-2 btn-con">
-                                            <button class="btn btn-primary">Button 1</button>
-                                            <button class="btn btn-secondary">Button 2</button>
-                                        </div>
-                                    </div>
+                                <div th:each= "acteur :${notMyPersonnes}" class="card-container"> 
+                                    <div class="img-con"><img th:src="${acteur.photo}"  alt=""/></div>
+                                    <div class="name-con"><p th:text="${acteur.nom+' '+acteur.prenom}"></p></div>
+                                    <div class="btn-con"><a th:href= "@{'/admin/films/'+${film.id}+'/add/acteur/'+${acteur.id}}"><button>add as acteur</button></a><a th:href= "@{'/admin/films/'+${film.id}+'/add/directeur/'+${acteur.id}}"><button>add as directeur</button></a></div>
                                 </div>
+                                
                                 <!-- More elements can be added here -->
                             </div>
                         </div>
@@ -159,12 +231,42 @@
         </div>
         </div>
         
-        
+        <script>
+            function submit(){
+                id = document.getElementById("id").value
+                titre = document.getElementById("titre").value
+                annee = document.getElementById("annee").value
+                duree = document.getElementById("duree").value
+                genreID = document.getElementById("genre").value
+                nationaliteID = document.getElementById("nationalite").value
+
+                document.getElementById("formID").value = id
+                document.getElementById("formTitre").value = titre
+                document.getElementById("formAnnee").value = annee
+                document.getElementById("formDuree").value = duree
+                document.getElementById("formGenre").value = genreID
+                document.getElementById("formNationalite").value = nationaliteID
+                document.getElementById("form").submit();
+            }
+
+            function upload() {
+                document.getElementById("formFile").click();
+                document.getElementById("formFile").addEventListener("change", function() {
+
+                    document.getElementById("formUpload").submit();
+                }, { once: true });
+            }
+
+
+        </script>
 
         <!-- Add Bootstrap JS and Popper.js -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
         
 </div>
 </div>

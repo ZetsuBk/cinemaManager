@@ -72,7 +72,7 @@ public class Film extends AbstractModel<Long>{
     @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Media> medias;
-
+    
     @Column(name = "added_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
     private Date addedDate;
 }
