@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cinema.entity.Nationalite;
 
+import java.util.Optional;
+
 
 @CrossOrigin("http://localhost:4200")
 @Repository
 public interface NationaliteRepository extends JpaRepository<Nationalite, Long> {
 	Page<Nationalite> findByLibelleStartsWith(@RequestParam("libelle") String libelle, Pageable pageable);
+
+	Nationalite findBylibelle(String libelle);
 }

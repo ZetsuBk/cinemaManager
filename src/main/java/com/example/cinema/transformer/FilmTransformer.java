@@ -4,8 +4,6 @@ import com.example.cinema.dto.FilmDTO;
 import com.example.cinema.entity.Film;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
 @Component
 public class FilmTransformer {
 
@@ -36,7 +34,6 @@ public class FilmTransformer {
         film.setNationalite(dto.getNationalite());
         film.setRealisateur(dto.getRealisateur());
         film.setActeurs(dto.getActeurs());
-
         film.setSeances(dto.getSeances());
         film.setMedias(dto.getMedias());
         film.setAddedDate(dto.getAddedDate());

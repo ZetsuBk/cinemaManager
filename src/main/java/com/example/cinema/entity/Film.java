@@ -55,7 +55,6 @@ public class Film extends AbstractModel<Long>{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="DIRECTOR_ID")
     private Personne realisateur;
-
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
