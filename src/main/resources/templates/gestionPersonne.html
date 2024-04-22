@@ -79,7 +79,7 @@
             </table>
             <div style="display: flex; flex-direction: row; justify-content: center" >
             <nav style="width: max-width;"  aria-label="Page navigation">
-                <ul  class="pagination">
+                <ul  th:if="${totalpages >0}" class="pagination">
                     <li class="page-item">
                         <a class="page-link" th:href="@{'/admin/personnes/page/1'}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>

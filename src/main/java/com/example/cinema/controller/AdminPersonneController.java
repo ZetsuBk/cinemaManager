@@ -64,17 +64,21 @@ public class AdminPersonneController {
     @PostMapping("/edit")
     public String editPersonne(@RequestParam("file")MultipartFile file,Personne personne,Model model) {
         if(!file.isEmpty() && !file.getOriginalFilename().equals("") && !file.getContentType().isEmpty()){
-            String fileName = service.getById(personne.getId()).get().getPhoto();
-            if(fileName != null){
-                if(fileName.split("/").length >=3){
-                    Utils.deleteFile(fileName.split("/")[2]);
-                }
-                
+            if(personne.getId() != null){
+                String fileName = service.getById(personne.getId()).get().getPhoto();
+                if(fileName != null){
+                    if(fileName.split("/").length >=3){
+                        Utils.deleteFile(fileName.split("/")[2]);
+                    }
+            }   
             }
             personne.setPhoto(Utils.saveFile(file));
            
         }
-        personne.setPhoto(personne.getPhoto() == null ? service.getById(personne.getId()).get().getPhoto()  : personne.getPhoto());
+        if(personne.getId() != null){
+            personne.setPhoto(personne.getPhoto() == null ? service.getById(personne.getId()).get().getPhoto()  : personne.getPhoto());
+        
+        }
         service.save(personne);
         return "redirect:/admin/personnes/page/1";
     }

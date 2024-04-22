@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+        <!-- Bootstrap Icons CSS via CDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+        
+        <style>
+            .card-container{
+                display: flex;
+                flex-direction: row;
+                border: 1px solid rgb(126, 126, 126);
+                border-radius: 10px;
+                margin: 3px;
+                margin-bottom: 5px;
+                background-color: rgb(73, 73, 73);
+                padding: 10px;
+                align-items: center;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+                color: aliceblue;
+                font-size: 20px;
+
+            }
+            .img-con img{
+                width: 85px;
+                height: 85px;
+                border-radius: 100%;
+                border: 2px solid white;
+                overflow: hidden;
+            }
+            .name-con{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                
+                padding-left: 10px;
+                width:200px;
+            }
+            .btn-con{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 310px;
+                font-size: 19px;
+            }
+            .btn-con button{
+                background-color: whitesmoke;
+                width: 140px;
+                height: 40px;
+                color: black;
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+            }
+            .btn-con button:hover{
+                background-color: rgb(51, 70, 70);
+                color: whitesmoke;
+            }
+        </style>
+       
+
+    </head>
+
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+<div class="container-fluid">
+    <div class="row">
+    <div th:replace="template :: sidebar"></div>
+        <div class="col-md-9">
+            <h2>Add Film</h2>
+           
+            
+            <!-- <form th:action="@{/admin/Film/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post"> -->
+        
+                <!-- Titre -->
+                <div class="form-group">
+                    <label for="titre">Titre:</label>
+                    <input type="text" value="dsdsd"  class="form-control" id="titre" name="titre" th:value="${film.titre}" required>
+                </div>
+
+                <!-- Annee -->
+                <div class="form-group">
+                    <label for="annee">Année:</label>
+                    <input type="number" th:value="${film.annee}" class="form-control" id="annee" name="annee" required>
+                </div>
+        
+                <!-- Duree -->
+                <div class="form-group">
+                    <label for="duree">Durée (minutes):</label>
+                    <input type="number" th:value="${film.duree}" class="form-control" id="duree" name="duree" required>
+                </div>
+        
+                <!-- Genre ID -->
+                <div class="form-group">
+                    <label for="genre_id">Genre :</label>
+                    <td><select class="form-select">
+                        <option th:each="genre: ${genres}" th:text="${genre.name}" th:selected="${genre.name == film.genre.name}" th:value="${genre.id}"></option>
+                    </select>
+                    </td>
+                </div>
+        
+                <!-- Nationalite ID -->
+                <div class="form-group">
+                    <label for="nationalite_id">Nationalité :</label>
+                    <td><select class="form-select">
+                        <option th:each="nationalite : ${nationalites}"  th:text="${nationalite.libelle}"  th:selected="${nationalite.libelle == film.nationalite.libelle}" th:value="${nationalite.id}"></option>
+                    </select>
+                    </td>
+                </div>
+                
+                <div class="container">
+                    <div class="row">
+                        <!-- Left Box -->
+                        <div class="col-md-6">
+                            <h3>Left Box</h3>
+                            <div class="list-group" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Example element -->
+                                <div class="card-container"> 
+                                    <div class="img-con"><img src="https://developer.mozilla.org/fr/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML/basic-image.png" alt=""></div>
+                                    <div class="name-con"><p>dsdsds</p></div>
+                                    <div class="btn-con"><button>add acteur</button><button>add directeur</button></div>
+                                </div>
+                                <!-- More elements can be added here -->
+
+                            </div>
+                        </div>
+                
+                        <!-- Right Box -->
+                        <div class="col-md-6">
+                            <h3>Right Box</h3>
+                            <div class="list-group" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Example element -->
+                                <div class="list-group-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4">
+                                            <img src="path-to-image.jpg" alt="..." class="img-fluid">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Item Name</h5>
+                                        </div>
+                                        <div class="col-md-2 btn-con">
+                                            <button class="btn btn-primary">Button 1</button>
+                                            <button class="btn btn-secondary">Button 2</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- More elements can be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+        </div>
+        </div>
+        
+        
+
+        <!-- Add Bootstrap JS and Popper.js -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+</div>
+</div>
+
+
+
+<div th:replace="template :: footer"></div>
+
+</body>
+</html>

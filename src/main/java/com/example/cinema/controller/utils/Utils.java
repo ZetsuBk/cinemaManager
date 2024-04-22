@@ -8,15 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import jakarta.servlet.ServletContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 
 @Component
@@ -24,11 +21,12 @@ public class Utils implements ServletContextAware{
 
    
     static private ServletContext servletContext;
-
+    
+    static private String uploadDir = "C:\\dev\\projetFinal\\cinemaManager\\src\\main\\resources\\static\\photos\\";
     
     public static String saveFile(MultipartFile file)
     {
-        String uploadDir = "C:\\cinema\\src\\main\\resources\\static\\photos\\";
+        
         // Create the directory if it doesn't exist
         File directory = new File(uploadDir);
         if (!directory.exists()) {
@@ -53,7 +51,7 @@ public class Utils implements ServletContextAware{
     }
 
     public static void deleteFile(String filename) {
-        File file = new File("C:\\cinema\\src\\main\\resources\\static\\photos\\"+filename);
+        File file = new File(uploadDir+filename);
         
         if (file.exists()) {
             if (file.delete()) {
