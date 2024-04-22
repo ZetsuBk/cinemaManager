@@ -16,8 +16,10 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200")
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Long> {
-    @Query("SELECT f FROM Film f JOIN f.nationalite n WHERE f.titre LIKE %:keyword% AND (:nationalite IS NULL OR n.libelle = :nationalite) AND (:genre IS NULL OR f.genre = :genre)")
-    List<Film> findByTitleContainingAndOptionalParameters(@Param("keyword") String keyword, @Param("nationalite") String nationalite, @Param("genre") String genre);
-
+    @Query("SELECT f FROM Film f JOIN f.nationalite n JOIN f.genre g WHERE f.titre LIKE %:keyword% AND (:nationalite IS NULL OR n.libelle = :nationalite) AND (:genre IS NULL OR g.name = :genre)")
+    List<Film> findByTitleContainingAndOptionalParameters(
+            @Param("keyword") String keyword,
+            @Param("nationalite") String nationalite,
+            @Param("genre") String genre);
 }
 
