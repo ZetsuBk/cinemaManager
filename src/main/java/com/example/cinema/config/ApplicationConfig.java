@@ -40,7 +40,6 @@ public class ApplicationConfig {
             }
         };
     }
-
     @Bean
     public AuthenticationProvider authentificationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
