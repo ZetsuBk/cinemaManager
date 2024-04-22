@@ -57,7 +57,6 @@ public class AuthenticationService {
             response.addCookie(cookie);
 
             return AuthenticationResponse.builder()
-                    .accessToken(jwtToken)
                     .build();
         } catch (DataIntegrityViolationException ex) {
             if (ex.getMessage().contains("duplicate key value violates unique constraint \"uknlcolwbx8ujaen5h0u2kr2bn2\"")) {
@@ -83,14 +82,13 @@ public class AuthenticationService {
             var user = userRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             var jwtToken = jwtService.generateToken((UserDetails) user);
-
-            Cookie cookie = new Cookie("AuthCookie", jwtToken);
+            Cookie cookie = new Cookie("AuthCoo", jwtToken);
             cookie.setMaxAge(1800);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
             return AuthenticationResponse.builder()
-                    .accessToken(jwtToken)
+
                     .build();
         } catch (AuthenticationException e) {
             e.printStackTrace();
