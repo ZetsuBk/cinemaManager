@@ -89,38 +89,46 @@
     <div class="row">
     <div th:replace="template :: sidebar"></div>
         <div class="col-md-9">
-            <div th:if= "${medias.size() > 0 }" id="myCarousel" class="carousel slide" data-ride="carousel">
-                <!-- Indicators -->
-                <ol class="carousel-indicators">
-                    <li th:each="index : ${#numbers.sequence(0, medias.size()-1)}"
-                        th:data-target="'#myCarousel'"
-                        th:data-slide-to="${index}"
-                        th:class="${index == 0} ? 'active' : ''"></li>
-                </ol>
+            <div th:if= "${mediasImg.size() + mediasVedios.size() > 0 or mediaPrin != null}" id="myCarousel" class="carousel slide" data-ride="carousel">
+              
                 
         
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
                     <!-- Image Slide -->
-                    <div th:each="media : ${medias}"  class="item active">
-                        <img th:if="${media.typeMedia == 'IMAGE'}" th:src="@{${media.media}}" alt="Image">
+                    <div th:if= "${mediaPrinType == 'img'}" class="item active">
+                        <img th:src="@{${mediaPrin.media}}" alt="Image 1">
                         <div class="carousel-caption">
-                            <h3>Image</h3>
+                            
+                        </div>
+                    </div>
+                    <div th:if= "${mediaPrinType == 'vid'}" class="item active">
+                        <div  class="embed-responsive embed-responsive-16by9">
+                            <iframe  class="embed-responsive-item" th:src="@{'http://localhost:8080'+${mediaPrin.media}}"></iframe>
+                        </div>
+                        <div class="carousel-caption">
+                           
                         </div>
                     </div>
                     
-        
                     <!-- Video Slide -->
-                    <div class="item">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/VIDEO_ID_1"></iframe>
+                    <!-- <div class="item">
+                        <div  class="embed-responsive embed-responsive-16by9">
+                            <iframe  class="embed-responsive-item" src="https://www.youtube.com/embed/VIDEO_ID_1"></iframe>
                         </div>
                         <div class="carousel-caption">
-                            <h3>Video 1</h3>
+                           
+                        </div>
+                    </div> -->
+        
+                    <!-- Add more slides as needed -->
+                    <div th:each="media : ${mediasImg}"  class="item">
+                        <img width="300px" height="300px" th:src="@{${media.media}}" alt="Image">
+                        <div  class="carousel-caption">
+                           
                         </div>
                     </div>
-        
-
+                    
                 </div>
         
                 <!-- Left and right controls -->
@@ -137,7 +145,7 @@
             <button onclick="upload()" class="btn btn-primary" >Upload Media</button>
 
             <h2 th:text="${mode+' Film'}"></h2>
-            <form style="display: none;" id="form" th:action="@{/admin/Film/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post">
+            <form style="display: none;" id="form" th:action="@{/admin/films/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post">
                 <input id="formID" type="text" th:field="*{id} ">
                 <input id="formTitre" type="text" th:field="*{titre}">
                 <input id="formDuree" type="number" th:field="*{duree}">

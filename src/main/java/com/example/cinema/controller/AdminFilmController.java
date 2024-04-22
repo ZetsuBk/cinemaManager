@@ -3,6 +3,7 @@ package com.example.cinema.controller;
 
 import java.util.List;
 
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -81,7 +82,32 @@ public class AdminFilmController {
         model.addAttribute("MyActeurs", film.getActeurs());
         model.addAttribute("MyDirecteurs", film.getRealisateur());
         model.addAttribute("mode", "Edit");
-        model.addAttribute("medias", film.getMedias());
+        List<Media> medias = film.getMedias();
+        List<Media> mediasImg = new ArrayList<>() ;
+        List<Media> mediasVedios=new ArrayList<>();
+        Media mediaPrin = null;
+        String mediaPrinType = null;
+        for (Media media : medias){
+            if(media.getTypeMedia() == Media.TypeMedia.IMAGE){
+                if(mediaPrin == null){
+                    mediaPrin = media;
+                    mediaPrinType = "img";
+                    continue;
+                }
+                mediasImg.add(media);
+            }else if(media.getTypeMedia() == Media.TypeMedia.VIDEO){ 
+                if(mediaPrin == null){
+                    mediaPrin = media;
+                    mediaPrinType = "vid";
+                    continue;
+                }
+                mediasVedios.add(media);
+            }
+        }
+        model.addAttribute("mediasImg",mediasImg );
+        model.addAttribute("mediasVedios",mediasVedios );
+        model.addAttribute("mediaPrin", mediaPrin);
+        model.addAttribute("mediaPrinType", mediaPrinType);
         return "gestionFilmEdit";
     }
     
@@ -122,6 +148,15 @@ public class AdminFilmController {
         }
         
         return "redirect:/admin/films/forword/"+filmId;
+    }
+    
+    @GetMapping("/add")
+    public String add(Model model) {
+        model.addAttribute("newFilm",new Film());
+        model.addAttribute("genres", genreService.getAll());
+        model.addAttribute("nationalites", nationaliteService.getAll());
+        model.addAttribute("mode", "Add");
+        return "gestionFilmAdd";
     }
     
 

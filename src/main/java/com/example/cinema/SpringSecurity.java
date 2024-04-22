@@ -39,7 +39,10 @@ public class SpringSecurity {
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.headers()
+        .frameOptions()
+        .sameOrigin() // Allow embedding in iframes from the same origin
+        .and().csrf().disable()
         .authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/api/**").permitAll().anyRequest().permitAll()
         ).formLogin().loginPage("/login").defaultSuccessUrl("/admin/home")
