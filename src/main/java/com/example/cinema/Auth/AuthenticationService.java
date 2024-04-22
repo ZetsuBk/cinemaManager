@@ -31,8 +31,6 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    @Value("${my-custom-cookie-name}")
-    private String cookieName;
     public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) {
         try {
             if (userRepository.existsByUsername(request.getUsername())) {
@@ -53,7 +51,7 @@ public class AuthenticationService {
                     .build();
             var savedUser = userRepository.save(user);
             var jwtToken = jwtService.generateToken((UserDetails) savedUser);
-            Cookie cookie = new Cookie(cookieName, jwtToken);
+            Cookie cookie = new Cookie("AuthCookie", jwtToken);
             cookie.setMaxAge(1800);
             cookie.setPath("/");
             response.addCookie(cookie);
@@ -86,7 +84,7 @@ public class AuthenticationService {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             var jwtToken = jwtService.generateToken((UserDetails) user);
 
-            Cookie cookie = new Cookie(cookieName, jwtToken);
+            Cookie cookie = new Cookie("AuthCookie", jwtToken);
             cookie.setMaxAge(1800);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
