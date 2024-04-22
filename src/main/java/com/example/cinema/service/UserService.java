@@ -1,5 +1,7 @@
 package com.example.cinema.service;
 
+import com.example.cinema.ResetSecurity.ResetTokenService;
+import com.example.cinema.ResetSecurity.ResettokenRepository;
 import com.example.cinema.entity.User;
 import com.example.cinema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,12 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-
+  @Autowired
+  private  ResetTokenService resetTokenService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
 
     // Get all users
     public List<User> getAllUsers() {
@@ -39,5 +44,18 @@ public class UserService {
     public Page<User> allProduitint(Long pageNo){
         Pageable pageable = PageRequest.of(Math.toIntExact(pageNo), 9);
         return userRepository.findAll(pageable);
+    }
+    public boolean emailExists(String email) {
+        return userRepository.existsUserByEmail(email);
+    }
+
+    public void initiatePasswordReset(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            resetTokenService.deleteTokensByUser(user);
+            String resetToken = resetTokenService.generateAndSavePasswordResetToken(user);
+            emailService.sendResetPasswordEmail(user, resetToken);
+        }
     }
 }
