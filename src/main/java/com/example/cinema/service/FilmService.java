@@ -11,9 +11,11 @@ import java.util.List;
 public class FilmService {
     @Autowired
     private FilmRepository filmRepository;
-
     public List<Film> search(String keyword, String nationalite, String genre) {
         return filmRepository.findByTitleContainingAndOptionalParameters(keyword, nationalite, genre);
+    }
+    public List<Film> getAllFilms() {
+        return filmRepository.findAll();
     }
 
 }
