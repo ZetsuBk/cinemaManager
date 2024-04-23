@@ -14,7 +14,6 @@ public class FilmDTO {
     private int duree;
 
     private int annee;
-
     private Genre genre;
 
     private Nationalite nationalite;
