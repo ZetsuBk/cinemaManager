@@ -16,12 +16,10 @@ public class FilmRating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     @Min(0)
     @Max(5)
     private Integer score;
-
     @Column
     private String comment;
     @ManyToOne
