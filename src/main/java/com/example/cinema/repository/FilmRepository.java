@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.cinema.entity.Film;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("http://localhost:4200")
 @Repository
@@ -21,5 +22,6 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
             @Param("keyword") String keyword,
             @Param("nationalite") String nationalite,
             @Param("genre") String genre);
+    Optional<Film> findById(Long id);
 }
 
