@@ -8,26 +8,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.ServletContextAware;
+
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.ServletContext;
+
 
 
 @Component
-public class Utils implements ServletContextAware{
+public class Utils  {
 
-   
-    static private ServletContext servletContext;
-    
-    static private String uploadDir = "C:\\cinema\\src\\main\\resources\\static\\photos\\";
-    
+ 
+
+    static private String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/media/";
     public static String saveFile(MultipartFile file)
     {
-        
-        // Create the directory if it doesn't exist
+     
         File directory = new File(uploadDir);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -43,7 +41,7 @@ public class Utils implements ServletContextAware{
 
             // Save the file to the specified path
             Files.copy(file.getInputStream(), filePath);
-            return "/photos/" + uniqueFileName;
+            return "/media/" + uniqueFileName;
         } catch (IOException ex) {
             ex.printStackTrace();
             return  null;
@@ -64,8 +62,11 @@ public class Utils implements ServletContextAware{
         }
     }
 
-    @Override
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;}
+    // @Override
+    // public void setServletContext(ServletContext servletContext) {
+    //     this.servletContext = servletContext;
+    //     this.uploadDir = servletContext.getContext();
+       
+    // }
 
 }

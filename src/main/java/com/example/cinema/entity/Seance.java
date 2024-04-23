@@ -49,5 +49,8 @@ public class Seance extends AbstractModel<Long>{
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="salle_ID")
     private Salle salle;
+
+    
 }
+
 
