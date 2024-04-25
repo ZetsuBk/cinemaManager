@@ -67,8 +67,8 @@ public class FilmRatingDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         FilmRatingDTO that = (FilmRatingDTO) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(score, that.score) &&

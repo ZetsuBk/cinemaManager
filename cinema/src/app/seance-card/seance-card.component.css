@@ -1,0 +1,135 @@
+.container{
+    color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #F2613F;
+    border-radius: 15px;
+    width: 1000px;
+    height:270px;
+    transition: 
+    width 0.2s ease-out,
+    height 0.2s ease-out , 
+    border 0.2s ease-in-out ,
+    box-shadow 0.2s ease-in-out ,
+    border-radius 0.1s ease-in-out;
+    padding: 0px 15px 0px 15px ;
+    background-color: #481e1433 ;
+    margin-bottom: 30px;
+}
+
+.container:hover{
+    border:4px solid #F2613F;
+    cursor: pointer;
+    width: 1010px;
+    height: 280px;
+    box-shadow: 0px 0px 10px #ff6543;
+    border-radius: 10px;
+}
+
+.colm-1{
+
+    width: 80%;
+    height: 90%;
+}
+
+.colm-1{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.img-poster{
+    height: 100%;
+    width: 30%;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 0px 3px #ffffff;
+}
+
+.img-poster img{
+    height: 100%;
+}
+
+.poster-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 67%;
+    height: 100%;
+    padding: 15px;
+}
+.info{
+    overflow:hidden;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.titre{
+    font-size: 35px;
+    transition: font-size 0.3s ease-in-out;
+}
+
+.titre:hover{
+    font-size: 36px;
+}
+
+.direc{
+    font-size: 16px;
+    font-weight: 300;
+    display: flex;
+    flex-direction:row ;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5px;
+    transition: color 0.3s ease-in-out;
+}
+
+.direc:hover {
+    color: #ff6543;
+
+}
+
+
+.photo{
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.photo img{
+    width: 55px;
+    height: 55px;
+}
+
+.colm-2{
+    border-left: 3px solid #ff6543 ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+}
+
+.bi{
+    color: #fd8064;
+    margin-right: 15px;
+}
+.info-2{
+    overflow:hidden;
+    white-space: nowrap;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    /* border: 2px solid green; */
+    margin-bottom: 20px;
+    font-size: 20px;
+    justify-content: flex-start;
+}

@@ -15,17 +15,27 @@
     </div>
     <div class="navbar-2">
       <div class="search-container ">
-        <input id="input-search" class="teko"  [placeholder]="isFilms ? 'Find your film' : 'find your seance'" type="text"> 
+        <input [(ngModel)]="searchText" (keyup)="onSearchFilm()" id="input-search" class="teko"  [placeholder]="isFilms ? 'Find your film' : 'find your seance'" type="text"> 
         <div id="icon-search">
           <i  class="bi bi-search-heart"></i>
         </div>
       </div>
-      <div class="filter-container">
+      <div *ngIf="isFilms" class="filter-container">
         <div>
-          <input type="text">
+         <select [(ngModel)]="genreID">
+          <option *ngFor="let genre of genres"  [text]="genre.name" [value] = "genre.id" ></option>
+         </select>
         </div>
-        <div><input type="text"></div>
-        <div><input type="date" ></div>
+        <div>
+          <select [(ngModel)]="nationaliteID">
+          <option *ngFor="let nationalite of nationalites" [text]="nationalite.libelle" [value] = "nationalite.id" ></option>
+         </select>
+        </div>
+        <div><input [(ngModel)]="date" type="date" ></div>
+        <!-- titre genre nationalite -->
+      </div>
+      <div *ngIf="isSeance" class="filter-container">
+        <div><input [(ngModel)]="date" type="date" ></div>
         <!-- titre genre nationalite -->
       </div>
     </div>

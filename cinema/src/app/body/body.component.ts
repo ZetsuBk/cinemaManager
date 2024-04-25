@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, NgIf } from '@angular/common';
 import { FilmsComponent } from "../films/films.component";
 import { HeaderComponent } from "../header/header.component";
+import { Film } from '../moduls/film.model';
 
 @Component({
     selector: 'app-body',
@@ -25,5 +26,13 @@ export class BodyComponent {
       this.isFilmRoute = url[0]?.path === 'films';
     });
     this.nav = this.isHomeRoute ? 1 : this.isFilmRoute ? 2 : 0 ;
+  }
+
+
+  receivedFilms: Film[] = [];
+
+  receiveMessage($event: Film[]) {
+    this.receivedFilms = $event;
+    console.log(this.receivedFilms)
   }
 }
