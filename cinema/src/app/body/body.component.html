@@ -1,0 +1,5 @@
+<app-header [nav]="nav" ></app-header>
+<div class="body-container">
+    <app-home *ngIf="isHomeRoute"></app-home>
+    <app-films *ngIf="isFilmRoute"></app-films>
+</div>
