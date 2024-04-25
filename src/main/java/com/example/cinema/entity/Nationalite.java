@@ -29,6 +29,7 @@ public class Nationalite extends AbstractModel<Long> {
     private String libelle;
 
     @OneToMany(mappedBy = "nationalite")
+    @JsonIgnore
     private Set<Personne> personnes = new HashSet<>();
 
     public String toString() {

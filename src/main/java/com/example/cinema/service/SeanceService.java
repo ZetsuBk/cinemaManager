@@ -1,5 +1,6 @@
 package com.example.cinema.service;
 
+// <<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.cinema.entity.Seance;
 import com.example.cinema.repository.SeanceRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +42,14 @@ public class SeanceService {
         return repo.findAll(pageable);
     }
 
-    
+    public List<Seance> getAllSeances() {
+        return repo.findAll();
+    }
+
+    public List<Seance> searchSeances(Date dateProjection, String filmTitle) {
+        return repo.findByDateProjectionAndFilm_TitreContaining(dateProjection, filmTitle);
+    }
 
 }
+
+

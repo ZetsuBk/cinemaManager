@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.cinema.dto.InlinePersonne;
 import com.example.cinema.entity.Personne;
 
 import java.sql.Date;
@@ -19,7 +18,6 @@ import java.sql.Date;
 
 @CrossOrigin("http://localhost:4200")
 @Repository
-@RepositoryRestResource(excerptProjection = InlinePersonne.class)
 public interface PersonneRepository extends JpaRepository<Personne, Long> {
 	Page<Personne> findByTypePersonne(@RequestParam("typePersonne") Personne.TypePersonne typePersonne, Pageable pageable);
 	Page<Personne> findByDateNaissanceGreaterThanEqual(@RequestParam("dateNs") Date dateNs, Pageable pageable);

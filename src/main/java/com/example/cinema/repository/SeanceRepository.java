@@ -18,4 +18,6 @@ import java.util.List;
 @Repository
 public interface SeanceRepository extends JpaRepository<Seance, Long> {
 	List<Seance> findByDateProjection(@Temporal(TemporalType.DATE) Date dateProjection);
+	List<Seance> findByDateProjectionAndFilm_TitreContaining(Date dateProjection, String title);
+
 }
