@@ -1,0 +1,25 @@
+package com.example.cinema.service;
+
+import com.example.cinema.entity.Film;
+import com.example.cinema.repository.FilmRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class FilmService {
+    @Autowired
+    private FilmRepository filmRepository;
+    public List<Film> search(String keyword, String nationalite, String genre) {
+        return filmRepository.findByTitleContainingAndOptionalParameters(keyword, nationalite, genre);
+    }
+    public List<Film> getAllFilms() {
+        return filmRepository.findAll();
+    }
+
+    public Optional<Film> getFilmById(Long id) {
+        return filmRepository.findById(id);
+    }
+}

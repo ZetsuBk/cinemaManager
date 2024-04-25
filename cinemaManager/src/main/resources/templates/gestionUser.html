@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head">
+</head>
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+<div class="container-fluid">
+    <div class="row">
+    <div th:replace="template :: sidebar"></div>
+    <div class="col-md-9">
+        <form style="display: none" id="newCategoryForm" th:action="@{/admin/users/edit}" th:object="${newUser}" enctype="multipart/form-data" method="post">
+            <input  id="submitId" type="text" class="form-control" th:field="*{Id}" />
+            <input id="submitUsername" type="text" class="form-control" th:field="*{username}" />
+            <input id="submitEmail" type="text" class="form-control" th:field="*{email}" />
+            <input id="submitPassword" type="text" class="form-control" th:field="*{password}" />
+        </form>
+    `
+        <h2  class="text-light mt-5 mb-3">Users</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${listUsers}">
+    
+                    <td th:text="${user.id}"></td>
+                    <td><input type="text" class="form-control"  th:value="${user.username}" /></td>
+                    <td><input type="text" class="form-control"   th:value="${user.email}" /></td>
+                    <td><input type="text" class="form-control"   th:value="${user.password}" /></td>
+                    <td>
+                        <button  onclick="save(this)" type="button" id="saveButton" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Save</button>
+                        <a th:href="@{'/admin/users/delete/' + ${user.Id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Delete</a>
+                    </td>
+    
+                </tr>
+                <tr style="background-color: rgb(204, 203, 203);">
+                    <td>#</td>
+                    <td><input type="text" class="form-control"  placeholder="username"/></td>
+                    <td><input type="text" class="form-control" placeholder="email"/></td>
+                    <td><input type="text" class="form-control" placeholder="password"/></td>
+                    </td>
+                    <td>
+                        <button  onclick="add(this)" type="button"  style="width: 100px" class="btn btn-primary btn-sm" ><i class="fas fa-save"></i> Add</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="display: flex; flex-direction: row; justify-content: center" >
+            <nav style="width: max-width;"  aria-label="Page navigation">
+                <ul  th:if="${totalpages >0}" class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/users/page/1'}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1,totalpages)}" ><a class="page-link" th:href="@{'/admin/users/page/'+${i}}" th:text="${i}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/users/page/' + ${totalpages}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        <script>
+            function  save(btn){
+                document.getElementById("submitId").value = btn.parentElement.parentElement.children[0].innerText
+                document.getElementById("submitEmail").value = btn.parentElement.parentElement.children[2].firstChild.value
+                document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[3].firstChild.value
+                document.getElementById("submitUsername").value = btn.parentElement.parentElement.children[1].firstChild.value
+                document.getElementById("newCategoryForm").submit();
+            }
+            function  add(btn){
+                document.getElementById("submitEmail").value = btn.parentElement.parentElement.children[2].firstChild.value
+                document.getElementById("submitPassword").value = btn.parentElement.parentElement.children[3].firstChild.value
+                document.getElementById("submitUsername").value = btn.parentElement.parentElement.children[1].firstChild.value
+                document.getElementById("newCategoryForm").submit();
+            }
+            
+    
+        </script>
+    
+
+</div>
+</div>
+
+<div th:replace="template :: footer"></div>
+
+</body>
+</html>

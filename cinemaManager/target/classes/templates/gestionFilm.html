@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: head">
+</head>
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+<div class="container-fluid">
+    <div class="row">
+    <div th:replace="template :: sidebar"></div>
+    <div class="col-md-9">
+        <h2  class="text-light mt-5 mb-3">Films</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Duree</th>
+                    <th>Annee</th>
+                    <th>Genre</th>
+                    <th>Nationalite</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="film : ${listFilms}">
+    
+                    <td th:text="${film.id}"></td>
+                    <td><input disabled type="text" class="form-control"   th:value="${film.titre}" /></td>
+                    <td><input  disabled type="number" class="form-control"   th:value="${film.duree}" /></td>
+                    <td><input  disabled type="number" class="form-control"   th:value="${film.annee}" /></td>
+                    <td><input  disabled type="text" class="form-control"   th:value="${film.genre.name}" /></td>
+                    <td><input  disabled type="text" class="form-control"   th:value="${film.nationalite.libelle}" /></td>
+                    <td>
+                        <a th:href="@{'/admin/films/forword/'+ ${film.Id}}" class="btn btn-primary">Edit</a>
+                        <a th:href="@{'/admin/films/delete/' + ${film.Id}}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+           <a th:href= "@{/admin/films/add}"><button  class="btn btn-primary btn-sm"> Add</button></a> 
+            <div style="display: flex; flex-direction: row; justify-content: center" >
+            <nav style="width: max-width;"  aria-label="Page navigation">
+                <ul th:if="${totalpages >0}" class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/films/page/1'}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(1,totalpages)}" ><a class="page-link" th:href="@{'/admin/films/page/'+${i}}" th:text="${i}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/admin/films/page/' + ${totalpages}}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+        <script>
+            
+
+        </script>
+    
+
+    
+
+</div>
+</div>
+
+
+<div th:replace="template :: footer"></div>
+
+</body>
+</html>

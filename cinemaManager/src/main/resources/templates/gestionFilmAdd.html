@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+        <!-- Bootstrap Icons CSS via CDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+        
+        <style>
+            .card-container{
+                display: flex;
+                flex-direction: row;
+                border: 1px solid rgb(126, 126, 126);
+                border-radius: 10px;
+                margin: 10px;
+                margin-bottom: 5px;
+                background-color: #f9f9f9;
+                padding: 10px;
+                align-items: center;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+                color: rgb(36, 36, 36);
+                font-size: 20px;
+
+            }
+            .directeur{
+                background-color: #4db7fe;
+            }
+            .img-con img{
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                border: 2px solid white;
+                overflow: hidden;
+            }
+            .name-con{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                
+                padding-left: 10px;
+                width:200px;
+            }
+            .name-con-1{
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                padding-left: 10px;
+                width:450px;
+            }
+            .btn-con{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 210px;
+                font-size: 15px;
+            }
+            .btn-con button{
+                background-color: whitesmoke;
+                width: 100px;
+                height: 45px;
+                color: black;
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+            }
+            
+                
+            .btn-con button:hover{
+                background-color: rgb(51, 70, 70);
+                color: whitesmoke;
+            }
+
+            .yy button:hover{ 
+                background-color: rgb(236, 66, 66);
+                color: whitesmoke;
+            }
+        </style>
+       
+
+    </head>
+
+<body>
+
+<nav th:replace="template :: navbar"></nav>
+<div class="container-fluid">
+    <div class="row">
+    <div th:replace="template :: sidebar"></div>
+        <div class="col-md-9">
+
+            <h2 th:text="${mode+' Film'}"></h2>
+            <form style="display: none;" id="form" th:action="@{/admin/films/edit}" th:object="${newFilm}" enctype="multipart/form-data" method="post">
+                <input id="formID" type="text" th:field="*{id} ">
+                <input id="formTitre" type="text" th:field="*{titre}">
+                <input id="formDuree" type="number" th:field="*{duree}">
+                <input id="formAnnee" type="number" th:field="*{annee}">
+                <input id="formGenre" type="text" th:field="*{genre.id}">
+                <input id="formNationalite" type="text" th:field="*{nationalite.id}">
+            </form>
+            <!-- <form style="display: none;" id="formUpload" th:action="@{'/admin/films/upload/'+${film.id}}"  enctype="multipart/form-data" method="post">
+                <input id="formFile" type="file" name="file">
+            </form> -->
+
+                <input  style="display: none;" type="text" name="" id="id">
+                <!-- Titre -->
+                <div class="form-group">
+                    <label for="titre">Titre:</label>
+                    <input type="text"  class="form-control" id="titre" name="titre" required>
+                </div>
+
+                <!-- Annee -->
+                <div class="form-group">
+                    <label for="annee">Année:</label>
+                    <input type="number"  class="form-control" id="annee" name="annee" required>
+                </div>
+        
+                <!-- Duree -->
+                <div class="form-group">
+                    <label for="duree">Durée (minutes):</label>
+                    <input type="number"  class="form-control" id="duree" name="duree" required>
+                </div>
+        
+                <!-- Genre ID -->
+                <div class="form-group">
+                    <label for="genre_id">Genre :</label>
+                    <td><select id="genre" class="form-select">
+                        <option  th:each="genre: ${genres}" th:text="${genre.name}"  th:value="${genre.id}"></option>
+                    </select>
+                    </td>
+                </div>
+        
+                <!-- Nationalite ID -->
+                <div class="form-group">
+                    <label for="nationalite_id">Nationalité :</label>
+                    <td><select id="nationalite" class="form-select">
+                        <option  th:each="nationalite : ${nationalites}"  th:text="${nationalite.libelle}"   th:value="${nationalite.id}"></option>
+                    </select>
+                    </td>
+                </div>
+                <button onclick="submit()" class="btn btn-primary" >submit</button>
+
+                
+                
+        </div>
+        </div>
+        
+        <script>
+            function submit(){
+                // id = document.getElementById("id").value
+                titre = document.getElementById("titre").value
+                annee = document.getElementById("annee").value
+                duree = document.getElementById("duree").value
+                genreID = document.getElementById("genre").value
+                nationaliteID = document.getElementById("nationalite").value
+
+                // document.getElementById("formID").value = id
+                document.getElementById("formTitre").value = titre
+                document.getElementById("formAnnee").value = annee
+                document.getElementById("formDuree").value = duree
+                document.getElementById("formGenre").value = genreID
+                document.getElementById("formNationalite").value = nationaliteID
+                document.getElementById("form").submit();
+            }
+
+
+
+        </script>
+
+        <!-- Add Bootstrap JS and Popper.js -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+        
+</div>
+</div>
+
+
+
+<div th:replace="template :: footer"></div>
+
+</body>
+</html>
