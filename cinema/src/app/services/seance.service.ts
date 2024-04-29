@@ -7,19 +7,19 @@ import { Seance } from '../models/seance.model';
   providedIn: 'root'
 })
 export class SeanceService {
-  // private apiUrl = 'http://localhost:8080/api2/user';
-  // constructor(private http: HttpClient) { }
-  // searchSeances(dateProjection?: Date , titre?: string, genre?: string): Observable<Seance[]> {
-  //   let params = new HttpParams();
-  //   if (keyword) {
-  //     params = params.set('keyword', keyword);
-  //   }
-  //   if (nationalite) {
-  //     params = params.set('nationalite', nationalite);
-  //   }
-  //   if (genre) {
-  //     params = params.set('genre', genre);
-  //   }
-  //   return this.http.get<Seance[]>(`${this.apiUrl}/search/seance`, { params });
-  // }
+   private apiUrl = 'http://localhost:8080/api2/user';
+ constructor(private http: HttpClient) { }
+ searchSeances(dateProjection: Date, filmTitle: string, otherParams?: any): Observable<Seance[]> {
+  let params = new HttpParams();
+  if (dateProjection) {
+    params = params.set('dateProjection', dateProjection.toString());
+  }
+  if (filmTitle) {
+    params = params.set('filmTitle', filmTitle);
+  }
+
+
+  const url = `${this.apiUrl}/search/seance`; 
+  return this.http.get<Seance[]>(url, { params });
+}
 }

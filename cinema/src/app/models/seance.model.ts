@@ -7,7 +7,7 @@ export interface Seance {
     heureDebut: Date;
     heureFin: Date;
     film: Film;
-    //salle: Salle;
+    salle: Salle;
   
   
   }

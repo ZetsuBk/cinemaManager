@@ -9,12 +9,12 @@ import { GenreService } from './services/genre.service';
 import { Genre } from './models/genre.model';
 import { NationaliteService } from './services/nationalite.service';
 import { Nationalite } from './models/nationalite.model';
+import { Seance } from './models/seance.model';
+import { SeanceService } from './services/seance.service';
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [RouterOutlet, HeaderComponent,NgFor,NgIf]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   filmId: number = 1;
@@ -22,8 +22,15 @@ export class AppComponent implements OnInit {
   nationalities: Nationalite[] = [];
   averageRating: number | undefined;
   averageRating$: Observable<number> | undefined;
-  films: Film[] | undefined
-  constructor(private filmService:  FilmService,private genreService: GenreService,private nationaliteService : NationaliteService  ) {}
+  films: Film[] | undefined;
+
+  constructor(
+    private filmService: FilmService,
+    private genreService: GenreService,
+    private nationaliteService: NationaliteService,
+    private seanceService: SeanceService 
+  ) {}
+
   ngOnInit(): void {
     this.filmService.getAverageRatingByFilmId(this.filmId).subscribe(
       (response: any) => {
@@ -36,15 +43,18 @@ export class AppComponent implements OnInit {
     const keyword = 'G';
     const nationalite = 'American';
     const genre = 'thriller';
-   this.filmService.searchFilms(keyword, nationalite, genre)
-     .subscribe(data =>{
-        this.films = data
-        console.log(data)
-
-     })
-     this.genreService.getAllGenres().subscribe(
+    this.filmService.searchFilms(keyword, nationalite, genre).subscribe(
       (data) => {
-        this.genres = data; 
+        this.films = data;
+        console.log('Films found:', data);
+      },
+      (error) => {
+        console.error('Error fetching films:', error);
+      }
+    );
+    this.genreService.getAllGenres().subscribe(
+      (data) => {
+        this.genres = data;
       },
       (error) => {
         console.error('Error fetching genres:', error);
@@ -52,19 +62,27 @@ export class AppComponent implements OnInit {
     );
     this.nationaliteService.getAllNationalities().subscribe(
       (data) => {
-        this.nationalities = data; 
+        this.nationalities = data;
       },
       (error) => {
         console.error('Error fetching nationalities:', error);
       }
     );
-
+    const dateProjection = new Date('2024-04-22');  // Replace with your desired date
+    const filmTitle = 'G'; 
+    this.seanceService.searchSeances(dateProjection,filmTitle).subscribe(
+      (seances: Seance[]) => {
+        console.log('Seances found:', seances);
+      },
+      (error) => {
+        console.error('Error fetching seances:', error);
+      }
+    );
   }
 
   getActorsFullName(actors: any[]): string {
-    return actors.map(actor => actor.nom + ' ' + actor.prenom).join(', ');
+    return actors.map((actor) => actor.nom + ' ' + actor.prenom).join(', ');
   }
-  
 
   title = 'cinema';
 }
