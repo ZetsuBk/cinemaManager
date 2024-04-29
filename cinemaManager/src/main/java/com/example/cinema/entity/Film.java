@@ -46,7 +46,6 @@ public class Film extends AbstractModel<Long>{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="GENRE_ID")
     private Genre genre;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="NATIONALITE_ID")
     @JsonProperty

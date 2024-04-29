@@ -19,7 +19,7 @@ public class FilmRating {
     @Column(nullable = false)
     @Min(0)
     @Max(5)
-    private Integer score;
+    private int score;
     @Column
     private String comment;
     @ManyToOne

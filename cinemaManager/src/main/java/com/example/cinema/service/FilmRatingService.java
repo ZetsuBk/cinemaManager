@@ -31,10 +31,6 @@ public class FilmRatingService {
         return StreamSupport.stream(filmRatingsIterable.spliterator(), false)
                 .collect(Collectors.toList());
     }
-
-    public Optional<FilmRating> getFilmRatingById(Long id) {
-        return filmRatingRepository.findById(id);
-    }
     public List<FilmRating> getFilmRatingsByFilmId(Long filmId) {
         return filmRatingRepository.findByFilmId(filmId);
     }

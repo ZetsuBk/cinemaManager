@@ -1,9 +1,7 @@
 package com.example.cinema.restcontroller;
-import com.example.cinema.entity.Film;
-import com.example.cinema.entity.FilmRating;
-import com.example.cinema.entity.Personne;
-import com.example.cinema.entity.Seance;
+import com.example.cinema.entity.*;
 import com.example.cinema.repository.FilmRatingRepository;
+import com.example.cinema.repository.GenreRepository;
 import com.example.cinema.repository.NationaliteRepository;
 import com.example.cinema.service.FilmRatingService;
 import com.example.cinema.service.FilmService;
@@ -18,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@RequestMapping("api2/user")
+@CrossOrigin("http://localhost:4200/")
 public class UserController {
     @Autowired
     private FilmService filmService;
@@ -26,11 +26,13 @@ public class UserController {
     @Autowired
     SeanceService seanceService;
     @Autowired
-    private final FilmRatingService filmRatingService;
+    GenreRepository genreRepository;
     @Autowired
-    private final FilmRatingRepository filmRatingRepository;
+    private  FilmRatingService filmRatingService;
     @Autowired
-    PersonneService personneService;
+    private  FilmRatingRepository filmRatingRepository;
+    @Autowired
+  PersonneService personneService;
 
     public UserController(FilmRatingService filmRatingService, FilmRatingRepository filmRatingRepository) {
         this.filmRatingService = filmRatingService;
@@ -52,6 +54,13 @@ public class UserController {
     public List<Film> getAllFilms() {
         return filmService.getAllFilms();
     }
+
+    @GetMapping("/getAllGenre")
+        public List<Genre> getAllGenres(){
+            return genreRepository.findAll() ; }
+    @GetMapping("/getAllNationality")
+    public List<Nationalite> getAllNationalities(){
+        return nationaliteRepository.findAll() ; }
     @GetMapping("/search/seance")
     public List<Seance> searchSeances(
             @RequestParam("dateProjection") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateProjection,
@@ -63,8 +72,6 @@ public class UserController {
         Optional<Film> film = filmService.getFilmById(id);
         return film.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-
     @GetMapping("/getPerson/{id}")
     public ResponseEntity<Personne> getPersonneById(@PathVariable Long id) {
         Optional<Personne> personne = personneService.getPersonneById(id);
@@ -75,13 +82,6 @@ public class UserController {
         List<FilmRating> filmRatings = filmRatingService.getAllFilmRatings();
         return ResponseEntity.ok(filmRatings);
     }
-
-    @GetMapping("/getFilmRating/{id}")
-    public ResponseEntity<FilmRating> getFilmRatingById(@PathVariable Long id) {
-        Optional<FilmRating> filmRating = filmRatingService.getFilmRatingById(id);
-        return filmRating.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/addFilmRating/{userId}")
     public ResponseEntity<FilmRating> createFilmRating(@RequestBody FilmRating filmRating,
                                                        @PathVariable("userId") Long userId) {
