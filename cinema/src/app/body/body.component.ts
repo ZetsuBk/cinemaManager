@@ -5,6 +5,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { FilmsComponent } from "../films/films.component";
 import { HeaderComponent } from "../header/header.component";
 import { Film } from '../moduls/film.model';
+import { Seance } from '../moduls/seance.model';
 
 @Component({
     selector: 'app-body',
@@ -30,6 +31,7 @@ export class BodyComponent {
 
 
   receivedFilms: Film[] = [];
+  recivedSeances : Seance[] =[];
 
   receiveMessage($event: Film[]) {
     this.receivedFilms = $event;

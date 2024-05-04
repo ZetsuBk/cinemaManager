@@ -7,6 +7,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Film } from '../moduls/film.model';
 import { FilmService } from '../service/film.service';
+import { GenreService } from '../service/genre.service';
+import { NationaliteService } from '../service/nationalite.service';
+import { Seance } from '../moduls/seance.model';
+import { SeanceService } from '../service/seance.service';
 
 @Component({
     selector: 'app-header',
@@ -28,10 +32,10 @@ export class HeaderComponent implements OnInit{
   searchText : string = "";
   genre : string ="";
   nationalite :string ="";
-  date :string | undefined;
+  date :Date | undefined;
   films : Film[] |undefined;
-  
-  constructor(private filmService:FilmService){
+  seances : Seance[] | undefined;
+  constructor(private filmService:FilmService,private genreService : GenreService, private nationaliteService : NationaliteService,private seanceService : SeanceService){
     
   }
 
@@ -48,24 +52,17 @@ export class HeaderComponent implements OnInit{
   }
 
   fillFiltersFilms(){
-   this.genres = [
-    {id :1, name:'comedy'},
-    {id :2 ,name:'romance'},
-    {id :2 ,name:'romance'}
-   ]
+    this.genreService.getAllGenres().subscribe(data =>{
+      this.genres = data;
+   })
 
-   this.nationalites = [
-    {id:2,libelle:'spain'},
-    {id:3,libelle:'usa'},
-    {id :2 ,libelle:'uk'}
-   ]
+   this.nationaliteService.getAllNationalities().subscribe(data=>{
+    this.nationalites = data;
+   })
+   
   }
 
   onSearchFilm(){
-      console.log(this.searchText)
-      console.log(this.genre)
-      console.log(this.nationalite)
-      console.log(this.date)
       this.filmService.searchFilms(this.searchText,this.nationalite,this.genre).subscribe(
         data =>{
           this.films = data;
@@ -73,54 +70,15 @@ export class HeaderComponent implements OnInit{
         }
         
       )
-      // this.films =[ 
-      //   {
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'/assets/photos/c.jpg',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },
-      //   {
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },{
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },{
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },{
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },{
-      //     id:1,titre:'las cassassds',duree:90,annee:2001,genre: {id :1, name:'comedy'},nationalite: {id:2,libelle:'spain'},
-      //     realisateur:{id:0,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}},
-      //     acteurs:[{ id :0 ,nom:'dsds',prenom:'dsds',photo:'sdsd',dateNaissance:'dsdsd',typePersonne:"sds",addedDate:"sds",nationalite:{id:2,libelle:'spain'}}],
-      //     addedDate:'dsds',
-      //     medias:[],
-      //     seances:[]
-      //   },
-      // ]
-    
+      
   
+  }
+
+  onSearchSeance(){
+    this.seanceService.searchSeances(this.date,this.searchText).subscribe(data =>{
+        this.seances = data;
+        
+    })
   }
 
 }

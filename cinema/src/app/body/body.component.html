@@ -1,5 +1,5 @@
 <app-header (messageEvent)="receiveMessage($event)" [nav]="nav" ></app-header>
 <div class="body-container">
-    <app-home *ngIf="isHomeRoute"></app-home>
+    <app-home [seances]=""recivedSeances *ngIf="isHomeRoute"></app-home>
     <app-films [films]="receivedFilms" *ngIf="isFilmRoute"></app-films>
 </div>

@@ -22,7 +22,7 @@
       </div>
       <div *ngIf="isFilms" class="filter-container">
         <div>
-         <select [(ngModel)]="genre">
+         <select  [(ngModel)]="genre">
           <option *ngFor="let genre of genres"  [text]="genre.name" [value] = "genre.name" ></option>
          </select>
         </div>

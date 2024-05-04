@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SeanceCardComponent } from "../seance-card/seance-card.component";
+import { Seance } from '../moduls/seance.model';
 
 @Component({
     selector: 'app-home',
@@ -9,5 +10,5 @@ import { SeanceCardComponent } from "../seance-card/seance-card.component";
     imports: [SeanceCardComponent]
 })
 export class HomeComponent {
-
+    @Input() seances : Seance[]  | undefined;
 }
