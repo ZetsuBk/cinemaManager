@@ -14,7 +14,7 @@ export interface Film {
     realisateur: Personne;
     acteurs: Personne[];
     addedDate: string;
-    medias?: Media[]; 
+    medias: Media[]; 
     seances?: Seance[]; 
   
  

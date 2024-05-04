@@ -1,12 +1,12 @@
 <div class="container">
     <div class="img-container">
-        <img [src]="media" alt="">
+        <img [src]="photo" alt="">
     </div>
     <div class="info-container">
         <div class="info titre barlow-condensed-extralight">{{film?.titre}}</div>
         <div class="info duree">{{film?.duree}} minuts / {{film?.annee}}</div>
         <div class="info">
-            <p-rating class="stars"  [(ngModel)]="score" [readonly]="true" [cancel]="false"></p-rating>
+            <p-rating class="stars"  [(ngModel)]="score.average" [readonly]="true" [cancel]="false"></p-rating>
         </div>
         <div class="info direc">
             <div class="photo"><img  [src]="film?.realisateur?.photo" alt="dfd"></div>

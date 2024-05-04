@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@RequestMapping("api2/user")
+@CrossOrigin("http://localhost:4200/")
 public class UserController {
     @Autowired
     private FilmService filmService;
@@ -96,8 +98,12 @@ public class UserController {
     @GetMapping(path = "/average/{filmId}")
     public Map<String, Double> getAverage(@PathVariable(value = "filmId") Long filmId) {
         List<FilmRating> filmRatings = filmRatingRepository.findByFilmId(filmId);
-        double averageScore = calculateAverageScore(filmRatings);
-        return Map.of("average", averageScore);
+        if(filmRatings.size() >0 ){
+            double averageScore = calculateAverageScore(filmRatings);
+            return Map.of("average", averageScore);
+        }
+        return Map.of("average", 0.0d);
+       
     }
     private double calculateAverageScore(List<FilmRating> filmRatings) {
         if (filmRatings.isEmpty()) {

@@ -22,16 +22,16 @@
       </div>
       <div *ngIf="isFilms" class="filter-container">
         <div>
-         <select [(ngModel)]="genreID">
-          <option *ngFor="let genre of genres"  [text]="genre.name" [value] = "genre.id" ></option>
+         <select [(ngModel)]="genre">
+          <option *ngFor="let genre of genres"  [text]="genre.name" [value] = "genre.name" ></option>
          </select>
         </div>
         <div>
-          <select [(ngModel)]="nationaliteID">
-          <option *ngFor="let nationalite of nationalites" [text]="nationalite.libelle" [value] = "nationalite.id" ></option>
+          <select [(ngModel)]="nationalite">
+          <option *ngFor="let nationalite of nationalites" [text]="nationalite.libelle" [value] = "nationalite.libelle" ></option>
          </select>
         </div>
-        <div><input [(ngModel)]="date" type="date" ></div>
+        
         <!-- titre genre nationalite -->
       </div>
       <div *ngIf="isSeance" class="filter-container">

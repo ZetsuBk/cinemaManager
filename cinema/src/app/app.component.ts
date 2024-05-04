@@ -12,4 +12,5 @@ import { HomeComponent } from "./home/home.component";
 })
 export class AppComponent {
   title = 'cinema';
+  static apiUrl : string = "http://localhost:8080"
 }
